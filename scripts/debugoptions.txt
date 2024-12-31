@@ -1,3 +1,11 @@
+// r_drawopaqueworld
+// r_drawtranslucentworld
+// r_drawopaquerenderables
+// r_drawtranslucentrenderables
+
+// r_drawlightcache 0-5
+// r_lightcachemodel "string"
+
 DebugMenu
 {
 
@@ -10,16 +18,18 @@ DebugMenu
 // 152 per column
 // 477 // Fits 3
 // 629 // Fits 4
+// 781 // Fits 5
 
 // height
 // 20 per row
 // 380 // Fits 14
 // 400 // Fits 15
+// 500 // Fits 20
 
 width	629
 height	400
 
-"Tools"
+"Misc"
 {
 	"Clear Back Buffer"
 		{togglecvar	gl_clear}
@@ -83,12 +93,6 @@ height	400
 		{togglecvar	fish_debug}
 	"Mass Report"
 		{togglecvar	sv_massreport}
-	"Debug Jiggle Bones"
-		{togglecvar	cl_jiggle_bone_debug}
-	"Debug JBones Yaw"
-		{togglecvar	cl_jiggle_bone_debug_yaw_constraints}
-	"Debug JBones Pitch"
-		{togglecvar	cl_jiggle_bone_debug_pitch_constraints}
 	"Firstperson"
 		{command	firstperson}
 	"Thirdperson"
@@ -100,6 +104,12 @@ height	400
 }
 "Prnt"
 {
+	"Developer Msg Level"
+		{incrementcvar	"developer 0 4 1"}
+	"Con Lines Overlay 0-90"
+		{command	"toggle contimes 0 8 16 32 64 90"}
+	"Server Cheats"
+		{togglecvar	sv_cheats}
 	"Show Respawn Times"
 		{command	mp_showrespawntimes}
 	"Light at Crosshair"
@@ -154,6 +164,28 @@ height	400
 		{command	cast_ray}
 	"Cast Hull"
 		{command	cast_hull}
+	"Flashlight"
+		{command	"impulse 100"}
+	"Refill Health and Ammo"
+		{command	"impulse 101"}
+	"Spawn Gib"
+		{command	"impulse 102"}
+	"Print AI State"
+		{command	"impulse 103"}
+	"Print Entity Info"
+		{command	"impulse 106"}
+	"Print Material"
+		{command	"impulse 107"}
+	"Start NPC Debugging"
+		{command	"impulse 108"}
+	"Play Viewmodel Holster"
+		{command	"impulse 200"}
+	"Spray Paint Image"
+		{command	"impulse 201"}
+	"Play Custom Sound"
+		{command	"impulse 202"}
+	"Remove Entity"
+		{command	"impulse 203"}
 }
 "Rndr"
 {
@@ -163,22 +195,6 @@ height	400
 		{togglecvar	r_drawfuncdetail}
 	"Clip Brushes"
 		{incrementcvar	"r_drawclipbrushes 0 2 1"}
-	"Toggle Triggers"
-		{command	showtriggers_toggle}
-	"Show trigger_multiple"
-		{command	"showtriggers_toggle trigger_multiple"}
-	"Show trigger_hurt"
-		{command	"showtriggers_toggle trigger_hurt"}
-	"Show func_respawnroom"
-		{command	"showtriggers_toggle func_respawnroom"}
-	"Show func_regenerate"
-		{command	"showtriggers_toggle func_regenerate"}
-	"Show func_nobuild"
-		{command	"showtriggers_toggle func_nobuild"}
-	"Show func_capturezone"
-		{command	"showtriggers_toggle func_capturezone"}
-	"Show trigger_capture_area"
-		{command	"showtriggers_toggle trigger_capture_area"}
 	"Visleaves"
 		{incrementcvar	"mat_leafvis 0 3 1"}
 	"Visleaves Mask"
@@ -189,6 +205,12 @@ height	400
 		{togglecvar	r_lockpvs}
 	"Turn Off PVS"
 		{togglecvar	r_novis}
+	"Lights"
+		{togglecvar	r_drawlights}
+	"Light Info"
+		{togglecvar	r_drawlightinfo}
+	"Beams"
+		{incrementcvar	"r_drawbeams 0 2 1"}
 	"Areaportals"
 		{togglecvar	r_drawportals}
 	"Open All Portals"
@@ -229,14 +251,12 @@ height	400
 		{togglecvar	r_drawparticles}
 	"Ropes"
 		{togglecvar	r_drawropes}
-	"Lights"
-		{togglecvar	r_drawlights}
-	"Light Info"
-		{togglecvar	r_drawlightinfo}
-	"Beams"
-		{incrementcvar	"r_drawbeams 0 2 1"}
-	"Occlusion"
+	"Show Cubemaps"
+		{togglecvar	r_showenvcubemap}
+	"Occlusion Wireframe"
 		{togglecvar	r_visocclusion}
+	"Spew Occlusion"
+		{togglecvar	r_occlusionspew}
 	"Overlays"
 		{togglecvar	r_renderoverlayfragment}
 	"Overlay Wireframe"
@@ -249,7 +269,9 @@ height	400
 		{togglecvar	r_shadows}
 	"Shadow Wireframe"
 		{togglecvar	r_shadowwireframe}
-	"W Light Shdws Dbg"
+	"Spew Dirty Shadows"
+		{togglecvar	r_shadow_debug_spew}
+	"Dbg WLight Shdws"
 		{togglecvar	r_shadowfromworldlights_debug}
 	"VGUI"
 		{togglecvar	r_drawvgui}
@@ -257,8 +279,6 @@ height	400
 		{togglecvar	cl_drawhud}
 	"Viewmodel"
 		{togglecvar	r_drawviewmodel}
-	"Show Cubemaps"
-		{togglecvar	r_showenvcubemap}
 	"VPhysics Wireframe"
 		{togglecvar	vcollide_wireframe}
 	"Skeleton Wireframe"
@@ -273,6 +293,33 @@ height	400
 		{togglecvar	r_drawrenderboxes}
 	"Partition Level"
 		{incrementcvar	"r_partition_level -1 3 1"}
+	"Toggle Triggers"
+		{command	showtriggers_toggle}
+	"Show trigger_multiple"
+		{command	"showtriggers_toggle trigger_multiple"}
+	"Show trigger_hurt"
+		{command	"showtriggers_toggle trigger_hurt"}
+	"Show func_respawnroom"
+		{command	"showtriggers_toggle func_respawnroom"}
+	"Show func_regenerate"
+		{command	"showtriggers_toggle func_regenerate"}
+	"Show func_nobuild"
+		{command	"showtriggers_toggle func_nobuild"}
+	"Show func_capturezone"
+		{command	"showtriggers_toggle func_capturezone"}
+	"Show trigger_capture_area"
+		{command	"showtriggers_toggle trigger_capture_area"}
+}
+"Rndr2"
+{
+	"Jiggle Bones"
+		{togglecvar	r_jiggle_bones}
+	"Debug Jiggle Bones"
+		{togglecvar	cl_jiggle_bone_debug}
+	"Debug JBones Yaw"
+		{togglecvar	cl_jiggle_bone_debug_yaw_constraints}
+	"Debug JBones Pitch"
+		{togglecvar	cl_jiggle_bone_debug_pitch_constraints}
 }
 "Mat"
 {
@@ -320,30 +367,32 @@ height	400
 		{togglecvar	mat_filtertextures}
 	"Show Mipmap Levels"
 		{incrementcvar	"mat_showmiplevels 0 2 1"}
-	"Show Low Res Image"
+	"Show Low-Res Image"
 		{togglecvar	mat_showlowresimage}
 	"Lighting Preview"
 		{incrementcvar	"mat_lpreview_mode -1 3 1"}
-	"Water Ovl"
+	"Water Overlay"
 		{togglecvar	mat_showwatertextures}
-	"Water Ovl Size"
-		{command	"toggle mat_wateroverlaysize 128 256 512 1024"}
-	"Frame Buffer Ovl"
+	"Water Ovl Size 128-512"
+		{command	"toggle mat_wateroverlaysize 128 256 512"}
+	"Frame Buffer Overlay"
 		{togglecvar	mat_showframebuffertexture}
-//	"Frame Buffer Ovl Size"
-//		{togglecvar	"mat_framebuffercopyoverlaysize 128 256 512 1024"}
-	"Cam Rndr Tgt Ovl"
+	"Frame Buffer Ovl Size 128-1024"
+		{command	"toggle mat_framebuffercopyoverlaysize 128 256 512 1024"}
+	"CamRndrTgt Overlay"
 		{togglecvar	mat_showcamerarendertarget}
-//	"Cam Rndr Tgt Ovl Size"
-//		{togglecvar	"mat_camerarendertargetoverlaysize 128 256 512 1024"}
+	"CamRndrTgtOvlSize 128-1024"
+		{command	"toggle mat_camerarendertargetoverlaysize 128 256 512 1024"}
+	"Shadow Overlay"
+		{togglecvar	cl_drawshadowtexture}
+	"Shdw Ovl Size 256-1024"
+		{command	"toggle cl_shadowtextureoverlaysize 256 512 1024"}
+	"Show Lightmap Page"
+		{incrementcvar	"mat_showlightmappage -1 31 1"}
 	"Hue Sat Val Color Mdl"
 		{togglecvar	mat_hsv}
 	"Y'UV Color Mdl"
 		{togglecvar	mat_yuv}
-	"Show Lightmap Page"
-		{incrementcvar	"mat_showlightmappage -1 31 1"}
-	"Shadow Texture"
-		{togglecvar	cl_drawshadowtexture}
 	"Reverse Depth"
 		{togglecvar	mat_reversedepth}
 	"Buffer Primitives"
@@ -352,6 +401,8 @@ height	400
 		{togglecvar	mat_drawflat}
 	"Software Lighting"
 		{togglecvar	mat_softwarelighting}
+	"HDR Histogram"
+		{togglecvar	mat_show_histogram}
 	"HDR Demo HUD"
 		{togglecvar	mat_show_ab_hdr_hudelement}
 }
@@ -384,7 +435,7 @@ height	400
 	"Sndscp Messages"
 		{togglecvar	soundscape_message}
 }
-"Ents"
+"Ent"
 {
 	"Clear Dbg Overlays"
 		{command	clear_debug_overlays}
@@ -447,7 +498,7 @@ height	400
 	"Prop Debug"
 		{command	prop_debug}
 }
-"NxtBot"
+"NB"
 {
 	"Select"
 		{command	nb_select}
@@ -495,32 +546,7 @@ height	400
 	"Show Compass"
 		{togglecvar	nav_show_compass}
 }
-"Impulse"
-{
-	"Flashlight"
-		{command	"impulse 100"}
-	"Refill Health and Ammo"
-		{command	"impulse 101"}
-	"Spawn Gib"
-		{command	"impulse 102"}
-	"Print AI State"
-		{command	"impulse 103"}
-	"Print Entity Info"
-		{command	"impulse 106"}
-	"Print Material"
-		{command	"impulse 107"}
-	"Start NPC Debugging"
-		{command	"impulse 108"}
-	"Play Viewmodel Holster"
-		{command	"impulse 200"}
-	"Spray Paint Image"
-		{command	"impulse 201"}
-	"Play Custom Sound"
-		{command	"impulse 202"}
-	"Remove Entity"
-		{command	"impulse 203"}
-}
-"Not In-Game"
+"!InGm"
 {
 	"Show Triggers"
 		{togglecvar	showtriggers}
