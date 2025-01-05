@@ -34,8 +34,6 @@ ClientPrecache
 	scriptsound	"Hud.ProjectorScreenUp"
 	scriptsound	"Hud.ProjectorScreenDown"
 	scriptsound	"Hud.ProjectorMovie"
-	scriptsound	"Hud.EndRoundScored"
-	scriptsound	"Hud.Warning"
 	scriptsound	"TV.Tune"
 	scriptsound	"Bullets.DefaultNearmiss"
 	scriptsound	"Weapon_Sapper.Removed"
