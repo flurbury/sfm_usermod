@@ -1,139 +1,301 @@
+//#base	"debugoptions_basetest.txt"
+
 DebugOptions
 {
 
-// 5 border
-// 150 wide
-// 18 tall
-// 2 gap
+// Shift + F1 to show/hide
+// Requires sv_cheats 1
+// Alternatively, use the "debugsystemui" command
+// Can be used with no arguments (to toggle) or <0|1> (to force hide/show)
+
+// Usage:
+// command <command>
+// togglecvar <command>
+// incrementcvar "<command> <minvalue> <maxvalue> <increment>"
+
+// Control settings at "resource/debugoptionspanel.res"
+
+// 5px border
+// 150px wide
+// 18px tall
+// 2px gap
+
+// +16px (8px on each side)
+
+// width = 8 + 5 + 150 + 2 + 150 + 2 + 150 + 2 + 150 + 5 + 8
+// height = 26 + 28 + 5 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 2 + 18 + 5 + 38
 
 // width
-// 152 per column
-// 477 // Fits 3
-// 629 // Fits 4
-// 781 // Fits 5
+// 152px per column
+// 480 // Fits 3
+// 632 // Fits 4
+// 784 // Fits 5
+// 936 // Fits 6
 
 // height
-// 20 per row
+// 20px per row
 // 380 // Fits 14
 // 400 // Fits 15
 // 500 // Fits 20
+// 600 // Fits 30
 
-width	629
-height	400
+width
+	632
+//	784
+height
+//	400
+	500
 
-Misc
+Misc // Miscellaneous
 {
-	"Clear Back Buffer"
-		{togglecvar	gl_clear}
-	"VGUI Hierarchy"
-		{togglecvar	vgui_drawtree}
-	"Network Graph"
-		{incrementcvar	"net_graph 0 4 1"}
 	"Show Budget Panel"
 		{command	+showbudget}
+			// Also turns on VProf sampling ("vprof_on")
 	"Hide Budget Panel"
 		{command	-showbudget}
-	"Texture Budget Panel"
-		{togglecvar	showbudget_texture}
+			// Also turns off VProf sampling ("vprof_off")
+	"Budget Panel Full"
+		{command	"budget_panel_x 20;
+				budget_panel_y 20;
+				budget_panel_width 1024;
+				budget_panel_height 1024;
+				budget_bargraph_range_ms 8.333333; // 120 fps (8 1/3 ms)
+				budget_history_numsamplesvisible 500;
+				budget_show_averages 1"}
+	"Show Tex Budget Panel"
+		{command	+showbudget_texture}
+	"Hide Tex Budget Panel"
+		{command	-showbudget_texture}
+	"Tex Budget Panel Full"
+		{command	"texture_budget_panel_x 20;
+				texture_budget_panel_y 45;
+				texture_budget_panel_width 768;
+				texture_budget_panel_height 768"}
 	"Tex Budget Global"
 		{togglecvar	texture_budget_panel_global}
-	"Texture List"
-		{togglecvar	mat_texture_list}
+	"Dump Global Tex Stats"
+		{command	showbudget_texture_global_dumpstats}
+	"Show Texture List"
+		{command	"mat_texture_list 1"}
+//		{command	+mat_texture_list}
+	"VGUI Hierarchy"
+		{togglecvar	vgui_drawtree}
+	"VGUI Keyboard Focus"
+		{togglecvar	vgui_drawkeyfocus}
+	"HUD Reload Scheme"
+		{command	hud_reloadscheme}
+	"Toggle VProf Sampling"
+		{command	vprof}
+	"Reset VProf Stats"
+		{command	vprof_reset}
+	"Reset VProf Peaks"
+		{command	vprof_reset_peaks}
 	"Show VProf Panel"
 		{command	+showvprof}
 	"Hide VProf Panel"
 		{command	-showvprof}
+	"Expand VProf All"
+		{command	vprof_expand_all}
+	"Collapse VProf All"
+		{command	vprof_collapse_all}
+	"VProf Counters"
+		{togglecvar	vprof_counters}
+	"Counters Min Max"
+		{togglecvar	vprof_counters_show_minmax}
 	"VProf Graph"
 		{togglecvar	vprof_graph}
 	"Model Stats Overlay"
 		{incrementcvar	"r_drawmodelstatsoverlay 0 2 1"}
 	"Entity Report"
 		{togglecvar	cl_entityreport}
+	"Demo Player"
+		{command	demoui}
+			// Also Shift + F2 to show/hide
+	"Advanced Demo Player"
+		{command	demoui2}
 	"Fog UI"
 		{command	fogui}
 	"Performance UI"
 		{command	perfui}
 	"Color Correction UI"
 		{command	colorcorrectionui}
+	"Start Visual Benchmark"
+		{command	perfvisualbenchmark}
+	"Abort Visual Benchmark"
+		{command	perfvisualbenchmark_abort}
 	"Enable Pose Debugger"
 		{command	+posedebug}
 	"Disable Pose Debugger"
 		{command	-posedebug}
-	"Demo Player"
-		{command	demoui}
-	"Advanced Demo Player"
-		{command	demoui2}
 	"Bug Reporter"
 		{command	bug}
+	"Shake Screen"
+		{command	shake}
+	"Stop All Shakes"
+		{command	shake_stop}
 	"Show Shakes"
 		{togglecvar	shake_show}
-	"Debug Viewmodel"
-		{togglecvar	vm_debug}
-	"Host Speeds"
+	"Spew Host Speeds"
 		{togglecvar	host_speeds}
 	"Show Prediction Errors"
 		{incrementcvar	"cl_showerror 0 2 1"}
 	"Prediction List"
 		{incrementcvar	"cl_predictionlist 0 2 1"}
-//	"Prediction Entity Dump"
-//		{incrementcvar	"cl_pdump -1 511 1"}
+	"Hide Pred Ent Dump"
+		{command	"cl_pdump -1"}
+	"Prediction Entity Dump"
+		{incrementcvar	"cl_pdump -1 511 1"}
+			// Arbitrary maximum value
+			// Does not show when the debug menu is visible
 	"Debug Fish"
 		{togglecvar	fish_debug}
+	"Freeze Fish"
+		{togglecvar	fish_dormant}
 	"Mass Report"
 		{togglecvar	sv_massreport}
-	"Firstperson"
-		{command	firstperson}
-	"Thirdperson"
-		{command	thirdperson}
-	"Thirdperson Shoulder"
-		{command	thirdpersonshoulder}
-	"Show Cam Angles"
-		{togglecvar	cam_showangles}
-	"Test Freeze Frame"
-		{command	test_freezeframe}
-	"Visualize +use"
-		{togglecvar	sv_debug_player_use}
+	"Client Precache Info All"
+		{command	cl_precacheinfo}
+	"Cl Precache Info Model"
+		{command	"cl_precacheinfo modelprecache"}
+	"Cl Precache Info Decal"
+		{command	"cl_precacheinfo decalprecache"}
+	"Cl Precache Info Sound"
+		{command	"cl_precacheinfo soundprecache"}
+	"Cl Precache Info Generic"
+		{command	"cl_precacheinfo genericprecache"}
+	"Sv Precache Info"
+		{command	sv_precacheinfo}
+	"Dump String Tables"
+		{command	dumpstringtables}
+	"Dump Game Str Table"
+		{command	dumpgamestringtable}
+	"Clear Decals"
+		{command	r_cleardecals}
+	"Clear Decals Permanent"
+		{command	"r_cleardecals permanent"}
+	"Flush LoDs"
+		{command	r_flushlod}
+	"Reload Search Paths"
+		{command	update_addon_paths}
+			// Intended for L4D add-ons
+//	"Unload All Add-ons"
+//		{command	unload_all_addons}
+			// Intended for L4D add-ons
+			// I don't know how to make this work, if it even does
 }
-Prnt
+Prnt // Print
 {
-	"Developer Msg Level"
-		{incrementcvar	"developer 0 4 1"}
+	"Developer Level"
+		{incrementcvar	"developer 0 2 1"}
 	"Con Lines Overlay 0-90"
-		{command	"toggle contimes 0 8 16 32 64 90"}
-	"Server Cheats"
-		{togglecvar	sv_cheats}
+		{incrementcvar	"contimes 0 88 8"}
+//		{command	"toggle contimes 0 8 60 90"}
+	"Clear Console"
+		{command	clear}
+	"List Non-Default CVars"
+		{command	differences}
+	"List All CVar Flags"
+		{command	findflags}
+	"CVar List"
+		{command	cvarlist}
+	"Log to console.log"
+		{command	"con_logfile console.log"}
+			// Default file when "-condebug" command line option is used
+	"Prefix Timestamps"
+		{togglecvar	con_timestamp}
+	"Dump Log Channels"
+		{command	log_dumpchannels}
+	"Log All Level All"
+		{command	"log_level -tag_none all"}
+			// "-" targets channels WITHOUT the given tag
+			// As no channel has "tag_none", this targets every channel
+	"Log All Level Warning"
+		{command	"log_level -tag_none warning"}
+	"Log All Level Error"
+		{command	"log_level -tag_none error"}
+	"Log All Level Off"
+		{command	"log_level -tag_none off"}
+	"Log All Color Example"
+		{command	"log_color -tag_none FFC08040"}
+	"Log All Flags Disabled"
+		{command	"log_flags -tag_none -consoleonly;
+				log_flags -tag_none -donotecho"}
+			// These are the only two log flags
+	"Cheats"
+//		{togglecvar	sv_cheats}
+		{incrementcvar	"sv_cheats 0 1 1"}
+	"Max FPS 0-300"
+		{command	"toggle fps_max 0 30 60 300"}
 	"Show FPS"
 		{incrementcvar	"cl_showfps 0 4 1"}
+			// 1: Show FPS on current map
+			// 2: Show FPS (lowest, highest), average ms, frame ms on current map
+			// 3: Show current, average, peak server ms
+			// 4: Show average FPS, frame ms, server ms, and log to "prof_<mapname>.csv"
 	"Show Position"
 		{incrementcvar	"cl_showpos 0 2 1"}
-	"Show Respawn Times"
-		{command	mp_showrespawntimes}
-	"Light at Crosshair"
-		{command	light_crosshair}
-	"Version"
+			// 1: Show eye pos and angles
+			// 2: Show origin and angles
+	"Show Network Graph"
+		{incrementcvar	"net_graph 0 4 1"}
+			// 1: Draw network usage graph (3 lines)
+			// 2: Draw data on payload (3 lines)
+			// 3: Draw payload legend (4 lines)
+			// 4: Draw server perf stats (5 lines)
+	"Client Show Events"
+		{incrementcvar	"cl_showevents 0 2 1"}
+	"Network Show Events"
+		{incrementcvar	"net_showevents 0 3 1"}
+			// 1: Client only
+			// 2: All
+			// 3: Show event serializations
+	"Show Event Listeners"
+		{togglecvar	net_showeventlisteners}
+	"List Bound Keys"
+		{command	key_listboundkeys}
+	"Display Game Events"
+		{togglecvar	display_game_events}
+	"Dump Event Queue"
+		{command	dumpeventqueue}
+	"Dump Game Event Stats"
+		{command	net_dumpeventstats}
+	"Print Version"
 		{command	version}
-	"SFM Diagnostics"
-		{command	sfm_diagnostics}
-	"Server Stats"
+	"Print Search Paths"
+		{command	path}
+	"Print Opened Files"
+		{command	fs_printopenfiles}
+			// Saves "fs_warning_level" value,
+			// sets to FILESYSTEM_WARNING_REPORTUNCLOSED,
+			// dumps unclosed files,
+			// And sets saved value
+//	"File Sys Warning Level"
+//		{incrementcvar	"fs_warning_level 0 6 1"}
+			// 0: FILESYSTEM_WARNING_QUIET
+			// 1: FILESYSTEM_WARNING_REPORTUNCLOSED
+			// 2: FILESYSTEM_WARNING_REPORTUSAGE
+			// 3: FILESYSTEM_WARNING_REPORTALLACCESSES
+			// 4: FILESYSTEM_WARNING_REPORTALLACCESSES_READ
+			// 5: FILESYSTEM_WARNING_REPORTALLACCESSES_READWRITE
+			// 6: FILESYSTEM_WARNING_REPORTALLACCESSES_ASYNC
+	"Print Server Stats"
 		{command	stats}
-	"Status"
+	"Display Status"
 		{command	status}
-	"Ping"
+	"Display Short Status"
+		{command	"status short"}
+	"Display Ping"
 		{command	ping}
 	"Print Plugins"
 		{command	plugin_print}
-	"Decal Info"
-		{command	r_printdecalinfo}
-	"Color Correction"
+	"Print Color Correction"
 		{command	print_colorcorrection}
-	"Memory"
+	"Print Memory Stats"
 		{command	memory}
-	"Spew Vrtx + Pix Shaders"
+	"Dump Memory Stats"
+		{command	star_memory}
+	"Print Vtx + Px Shaders"
 		{command	mat_spewvertexandpixelshaders}
-	"Report Entities"
-		{command	report_entities}
-	"Dump Event Queue"
-		{command	dumpeventqueue}
 	"Getpos"
 		{command	getpos}
 	"Getpos 2"
@@ -144,234 +306,702 @@ Prnt
 		{command	spec_pos}
 	"Spec Pos 2"
 		{command	"spec_pos 2"}
-	"Dump Log Channels"
-		{command	log_dumpchannels}
 	"Current Mat Sys Config"
 		{command	mat_configcurrent}
-	"Mat Sys Info"
+	"Show Mat Sys Info"
 		{command	mat_info}
-	"Net Channels"
+	"Show Net Channel Info"
 		{command	net_channels}
-	"Debug Pixel Visibility"
-		{command	pixelvis_debug}
 	"Debug Fog Volume"
 		{togglecvar	fog_volume_debug}
-	"Spew Touch Links"
-		{togglecvar	debug_touchlinks}
-	"Show Entities"
+	"Dump Entity List"
 		{command	cl_showents}
 	"Cast Ray"
 		{command	cast_ray}
+			// Doesn't work when game is paused
 	"Cast Hull"
 		{command	cast_hull}
-	"Debug Cheap Water"
-		{togglecvar	r_debugcheapwater}
-	"Flashlight"
+			// Doesn't work when game is paused
+	"Surface Properties"
+		{command	surfaceprop}
+	"Show Server Tags"
+		{command	sv_showtags}
+	"Report HW Morph Mem"
+		{command	mat_reporthwmorphmemory}
+	"Dump Entity Factories"
+		{command	dumpentityfactories}
+	"Dump Entity Sizes"
+		{command	dump_entity_sizes}
+	"List Max Players"
+		{command	maxplayers}
+	"Ground Entity List"
+		{command	groundlist}
+	"List Loaded Models"
+		{command	listmodels}
+	"Get Server Game Time"
+		{command	server_game_time}
+	"List Recent NPC Speech"
+		{command	listrecentnpcspeech}
+}
+Gm // Game
+{
+
+// bot [-count <count>] [-all] [-frozen] [-targetdummy] [-teleport auto|red|blue|spectator] [-class <class>] [-team blue|red|spectator|random] [-name <playername>]
+
+// bot_forcefireweapon ???
+// bot_forceattack2 <0|1>
+// bot_changeclass ???
+// bot_dontmove <0|1>
+// bot_saveme <int>
+// bot_mimic <entindex>
+// bot_mimic_yaw_offset <angle>
+// bot_selectweaponslot <-1|slot>
+// bot_randomnames <0|1>
+// bot_jump <0|1>
+
+// bot_command <bot> <command>
+// bot_kill <bot>
+// bot_changeteams <teamnum>
+// bot_refill
+// bot_whack <bot>
+// bot_teleport <bot> <x> <y> <z> <pitch> <yaw> <roll>
+// bot_selectweapon <bot> <slot>
+
+// bot_forceattackon ???
+// bot_flipout 0 ???
+// bot_defend 0 ???
+
+	"FoV 75-90"
+		{command	"toggle fov_desired 75 90"}
+	"Viewmodel FoV 54-75"
+		{command	"toggle viewmodel_fov 54 70"}
+
+// addcond 0	// TF_COND_AIMING			// 1
+// addcond 1	// TF_COND_ZOOMED			// 2
+// addcond 2	// TF_COND_DISGUISING			// 4
+// addcond 3	// TF_COND_DISGUISED			// 8
+// addcond 4	// TF_COND_STEALTHED			// 16
+// addcond 5	// TF_COND_INVULNERABLE			// 32
+// addcond 6	// TF_COND_TELEPORTED			// 64
+// addcond 7	// TF_COND_TAUNTING			// 128
+// addcond 8	// TF_COND_INVULNERABLE_WEARINGOFF	// 256
+// addcond 9	// TF_COND_STEALTHED_BLINK		// 512
+// addcond 10	// TF_COND_SELECTED_TO_TELEPORT		// 1024
+// addcond 11	// TF_COND_CRITBOOSTED			// 2048
+// addcond 12	// TF_COND_TMPDAMAGEBONUS		// 4096
+// addcond 13	// TF_COND_FEIGN_DEATH			// 8192
+
+	"Add Cond Cloaked"
+		{command	"addcond 4"}
+	"Rmv Cond Cloaked"
+		{command	"removecond 4"}
+//		{command	"addcond 4 0"}
+	"Add Cond Invulnerable"
+		{command	"addcond 5"}
+	"Rmv Cond Invulnerable"
+		{command	"removecond 5"}
+	"Add Cond Crit Boosted"
+		{command	"addcond 11"}
+	"Rmv Cond Crit Boosted"
+		{command	"removecond 11"}
+			// Usage:
+			// addcond <cond> [<duration>] [<playername>]
+			// removecond <cond> [<playername>]
+	"Force Win Current Team"
+		{command	mp_forcewin}
+	"Force Stalemate"
+		{command	"mp_forcewin 0"}
+	"Force Win Red"
+		{command	"mp_forcewin 2"}
+	"Force Win Blue"
+		{command	"mp_forcewin 3"}
+	"Tournament Mode"
+		{togglecvar	mp_tournament}
+	"Scramble Teams"
+		{command	mp_scrambleteams}
+	"Switch Teams"
+		{command	mp_switchteams}
+	"Friendly Fire"
+		{togglecvar	mp_friendlyfire}
+	"Force Respawn All"
+		{command	mp_forcerespawnplayers}
+	"Show Respawn Times"
+		{command	mp_showrespawntimes}
+	"Test Spawn Points"
+		{command	map_showspawnpoints}
+			// Doesn't work when game is paused
+	"Debug Flames"
+		{togglecvar	tf_debug_flamethrower}
+	"Turbo Physics"
+		{togglecvar	sv_turbophysics}
+	"Infinite Ammo"
+		{togglecvar	sv_infinite_ammo}
+	"SFM Diagnostics"
+		{command	sfm_diagnostics}
+	"SFM Memory"
+		{command	sfm_memory}
+	"100 Flashlight"
 		{command	"impulse 100"}
-	"Refill Health and Ammo"
+	"101 Refill Health/Ammo"
 		{command	"impulse 101"}
-	"Spawn Gib"
+	"102 Spawn Gib"
 		{command	"impulse 102"}
-	"Print AI State"
+	"103 Print AI State"
 		{command	"impulse 103"}
-	"Print Entity Info"
+	"106 Print Entity Info"
 		{command	"impulse 106"}
-	"Print Material"
+	"107 Print Material"
 		{command	"impulse 107"}
-	"Start NPC Debugging"
+	"108 Start NPC Debugging"
 		{command	"impulse 108"}
-	"Play Viewmodel Holster"
+	"200 Deploy/Holster Wpn"
 		{command	"impulse 200"}
-	"Spray Paint Image"
+	"201 Spray Paint Image"
 		{command	"impulse 201"}
-	"Play Custom Sound"
+	"202 Play Custom Sound"
 		{command	"impulse 202"}
-	"Remove Entity"
+	"203 Remove Entity"
 		{command	"impulse 203"}
+	"Cycle Disguises"
+		{incrementcvar	"impulse 221 239 1"}
+			// Usage: impulse <2<team><class>>
+			
+			// Team:
+			// 2: Red
+			// 3: Blue
+			
+			// Class:
+			// 1: Scout
+			// 2: Sniper
+			// 3: Soldier
+			// 4: Demoman
+			// 5: Medic
+			// 6: Heavy
+			// 7: Pyro
+			// 8: Spy
+			// 9: Engineer
+	"Last Disguise"
+		{command	lastdisguise}
+	"Last Disguise Random"
+		{command	"lastdisguise random"}
+			// "random" can be any string
+	"Extend Freeze +2s"
+		{command	extendfreeze}
+	"Show MotD"
+		{command	show_motd}
+	"Enable Low Violence"
+		{command	"violence_hblood 0;
+				violence_hgibs 0;
+				violence_ablood 0;
+				violence_agibs 0"}
+	"Disable Low Violence"
+		{command	"violence_hblood 1;
+				violence_hgibs 1;
+				violence_ablood 1;
+				violence_agibs 1"}
+	"First Person"
+		{command	firstperson}
+	"Third Person"
+		{command	thirdperson}
+	"Third Person Shoulder"
+		{command	thirdpersonshoulder}
+	"Disable Cam Collision"
+		{togglecvar	cam_collision}
+	"Show Camera Angles"
+		{togglecvar	cam_showangles}
+	"Visualize +use"
+		{togglecvar	sv_debug_player_use}
+			// Green cross: Trace success
+			// Red cross: Trace too far
+			// Green box: Radius success
+	"Weapon Proficiency"
+		{togglecvar	weapon_showproficiency}
 }
-Rndr
+Rndr // Renderer
 {
-	"Draw World"
-		{incrementcvar	"r_drawworld 0 2 1"}
-	"Draw Opaque World"
-		{togglecvar	r_drawopaqueworld}
-	"Draw Trans World"
-		{togglecvar	r_drawtranslucentworld}
-	"Detail Brushes"
-		{togglecvar	r_drawfuncdetail}
-	"Clip Brushes"
-		{incrementcvar	"r_drawclipbrushes 0 2 1"}
-	"Toggle Triggers"
-		{command	showtriggers_toggle}
-	"Visleaves"
-		{incrementcvar	"mat_leafvis 0 3 1"}
-	"Visleaves Mask"
-		{incrementcvar	"mat_leafvis_draw_mask -1 7 1"}
-	"Lock PVS"
-		{togglecvar	r_lockpvs}
-	"Turn Off PVS"
-		{togglecvar	r_novis}
-	"Ambient Cubes"
-		{togglecvar	r_visambient}
-	"Light Cache"
-		{incrementcvar	"r_drawlightcache 0 5 1"}
-	"Light Cache Model mdl"
-		{command	"toggle r_lightcachemodel -1 mdl"}
-	"Lights"
-		{togglecvar	r_drawlights}
-	"Light Info"
-		{togglecvar	r_drawlightinfo}
-	"Beams"
-		{incrementcvar	"r_drawbeams 0 2 1"}
-	"Model Light Origins"
-		{togglecvar	r_drawmodellightorigin}
-	"Areaportals"
-		{togglecvar	r_drawportals}
-	"Open All Areaportals"
-		{togglecvar	r_portalsopenall}
-	"Close All Areaportals"
-		{togglecvar	r_portalscloseall}
-	"Show Viewer Areas"
-		{togglecvar	r_showviewerarea}
-	"Displacements"
-		{togglecvar	r_drawdisp}
-	"Walkable Disps"
-		{togglecvar	r_dispwalkable}
-	"Buildable Disps"
-		{togglecvar	r_dispbuildable}
-	"Skybox"
-		{togglecvar	r_drawskybox}
-	"3D Skybox"
-		{togglecvar	r_3dsky}
-	"Draw Entities"
-		{incrementcvar	"r_drawentities 0 3 1"}
-	"Opaque Renderables"
-		{togglecvar	r_drawopaquerenderables}
-	"Trans Renderables"
-		{togglecvar	r_drawtranslucentrenderables}
-	"Static Props"
-		{incrementcvar	"r_drawstaticprops 0 2 1"}
-	"Color Static Props"
-		{togglecvar	r_colorstaticprops}
-	"Static Prop Info"
-		{incrementcvar	"r_staticpropinfo 0 4 1"}
-	"Other Models"
-		{incrementcvar	"r_drawothermodels 0 2 1"}
-	"Brush Models"
-		{incrementcvar	"r_drawbrushmodels 0 2 1"}
-	"Detail Props"
-		{incrementcvar	"r_drawdetailprops 0 2 1"}
-	"Water"
-		{togglecvar	mat_drawwater}
-	"Sprites"
-		{incrementcvar	"r_drawsprites 0 2 1"}
-	"Particles"
-		{togglecvar	r_drawparticles}
-	"Ropes"
-		{togglecvar	r_drawropes}
-	"Show Cubemaps"
-		{togglecvar	r_showenvcubemap}
-	"Occlusion Wireframe"
-		{togglecvar	r_visocclusion}
-	"Spew Occlusion"
-		{togglecvar	r_occlusionspew}
-	"Overlays"
-		{togglecvar	r_renderoverlayfragment}
-	"Overlay Wireframe"
-		{togglecvar	r_overlaywireframe}
-	"Decals"
-		{incrementcvar	"r_drawdecals 0 2 1"}
-	"Model Decals Wrfrm"
-		{togglecvar	r_modelwireframedecal}
-	"Shadows"
-		{togglecvar	r_shadows}
-	"Shadow Wireframe"
-		{togglecvar	r_shadowwireframe}
-	"Spew Dirty Shadows"
-		{togglecvar	r_shadow_debug_spew}
-	"Dbg WLight Shdws"
-		{togglecvar	r_shadowfromworldlights_debug}
-	"VGUI"
-		{togglecvar	r_drawvgui}
-	"HUD"
-		{togglecvar	cl_drawhud}
-	"Viewmodel"
-		{togglecvar	r_drawviewmodel}
-	"VPhysics Wireframe"
-		{togglecvar	vcollide_wireframe}
-	"Skeleton Wireframe"
-		{togglecvar	enable_skeleton_draw}
-	"Slow Path Wireframe"
-		{togglecvar	r_slowpathwireframe}
-	"Depth Buffer"
-		{togglecvar	r_depthoverlay}
-	"Render Boxes"
-		{togglecvar	r_drawrenderboxes}
-	"Partition Level"
-		{incrementcvar	"r_partition_level -1 3 1"}
-	"Visualize Traces"
-		{togglecvar	r_visualizetraces}
-}
-Rndr2
-{
-	"Show trigger_multiple"
-		{command	"showtriggers_toggle trigger_multiple"}
-	"Show trigger_hurt"
-		{command	"showtriggers_toggle trigger_hurt"}
-	"Show func_respawnroom"
-		{command	"showtriggers_toggle func_respawnroom"}
-	"Show func_regenerate"
-		{command	"showtriggers_toggle func_regenerate"}
-	"Show func_nobuild"
-		{command	"showtriggers_toggle func_nobuild"}
-	"Show func_capturezone"
-		{command	"showtriggers_toggle func_capturezone"}
-	"Show trigger_capture_area"
-		{command	"showtriggers_toggle trigger_capture_area"}
-	"Jiggle Bones"
-		{togglecvar	r_jiggle_bones}
-	"Debug Jiggle Bones"
-		{togglecvar	cl_jiggle_bone_debug}
-	"Debug Jgl Bones Pitch"
-		{togglecvar	cl_jiggle_bone_debug_pitch_constraints}
-	"Debug Jgl Bones Yaw"
-		{togglecvar	cl_jiggle_bone_debug_yaw_constraints}
-	"Invert Jiggle Bones"
-		{togglecvar	cl_jiggle_bone_invert}
-	"Skin"
-		{incrementcvar	"r_skin 0 15 1"}
-}
-Mat
-{
-	"Queue Mode"
-		{incrementcvar	"mat_queue_mode -1 2 1"}
-	"Reload All Materials"
-		{command	mat_reloadallmaterials}
-	"Reload All Textures"
-		{command	mat_reloadalltextures}
-	"Wireframe"
+	"Wireframe Mode"
 		{incrementcvar	"mat_wireframe 0 3 1"}
 	"Fullbright"
 		{incrementcvar	"mat_fullbright 0 2 1"}
+	"Draw World"
+		{incrementcvar	"r_drawworld 0 2 1"}
+	"Hide Opaque World"
+		{togglecvar	r_drawopaqueworld}
+	"Hide Trans World"
+		{togglecvar	r_drawtranslucentworld}
+	"Hide Detail Brushes"
+		{togglecvar	r_drawfuncdetail}
+	"Hide Displacements"
+		{togglecvar	r_drawdisp}
+	"Show Walkable Disps"
+		{togglecvar	r_dispwalkable}
+			// Walkable and buildable disps need any of the following:
+			// Any wireframe mode ("mat_wireframe" or "r_drawworld")
+			// mat_luxels
+			// mat_surfaceid
+			// mat_surfacemat
+	"Show Buildable Disps"
+		{togglecvar	r_dispbuildable}
+	"Draw Clip Brushes"
+		{incrementcvar	"r_drawclipbrushes 0 2 1"}
+	"Visualize Leaves"
+		{incrementcvar	"mat_leafvis 0 3 1"}
+			// 1: Draw current leaf
+			// 2: Draw entire cluster
+			// 3: Draw entire PVS
+	"Draw Leaves Mask"
+		{incrementcvar	"mat_leafvis_draw_mask -1 6 1"}
+			// Bit field
+			// Bit 0: Draw PVS-visible leaves
+			// Bit 1: Draw PVS- and frustum-visible leaves
+			// Bit 2: Draw frustum bounds
+			
+			// -1: Draw all
+			// 0: Hide all
+			// 1: Draw leaves outside of frustum only
+			// 2: Draw leaves inside of frustum only
+			// 3: Draw both except frustum
+			// 4: Draw frustum only
+			// 5: Draw leaves outside of frustum and the frustum itself
+			// 6: Draw leaves inside of frustum and the frustum itself
+			// 7: Draw all (redundant)
+	"Freeze Leaves"
+		{togglecvar	mat_freeze_leafvis}
+	"Lock PVS"
+		{togglecvar	r_lockpvs}
+	"Disable PVS"
+		{togglecvar	r_novis}
+
+// r_drawleaf <int>
+
+	"Show Ambient Cubes"
+		{togglecvar	r_visambient}
+	"Draw Light Cache"
+		{incrementcvar	"r_drawlightcache 0 5 1"}
+			// 1: Draw light cache entries
+			// 2: Draw rays
+			// 3: Identity lighting errors
+			// 4: Draw boxes (_DEBUG build only)
+			// 5: Draw irradiance light probes for models containing substring set in "r_lightcachemodel"
+	"Light Cache Model All"
+		{command	"toggle r_lightcachemodel -1 .mdl"}
+//	"No Adjust LC Origin"
+//		{togglecvar	r_lightcachecenter}
+			// More research required
+	"Invalidate Light Cache"
+		{command	r_lightcache_invalidate}
+	"Num World Lights"
+		{incrementcvar	"r_worldlights 0 4 1"}
+			// m_MaxNumLights: 4
+	"Draw Lights"
+		{togglecvar	r_drawlights}
+	"Draw Lights Info"
+		{togglecvar	r_drawlightinfo}
+	"Draw Mdl Light Origin"
+		{togglecvar	r_drawmodellightorigin}
+	"Draw Area Portals"
+		{togglecvar	r_drawportals}
+	"Open All Area Portals"
+		{togglecvar	r_portalsopenall}
+	"Close All Area Portals"
+		{togglecvar	r_portalscloseall}
+	"Map No Areas"
+		{incrementcvar	"map_noareas 0 2 1"}
+			// 0: Default
+			// 1: Ostensibly send everything with respect to area bits
+				// I don't know how to make this work, if it even does
+			// 2: Send nothing (effectively closes all area portals)
+	"Portals No Test Ents"
+		{togglecvar	r_portaltestents}
+	"Show Viewer Areas"
+		{togglecvar	r_showviewerarea}
+//	"Snap Portal"
+//		{incrementcvar	"r_snapportal -1 7 1"}
+			// Arbitrary maximum value
+	"Visualize Occlusion"
+		{togglecvar	r_visocclusion}
+	"Spew Occlusion"
+		{togglecvar	r_occlusionspew}
+	"Disable Occlusion"
+		{togglecvar	r_occlusion}
+	"Get Current Skybox"
+		{command	sv_skyname}
+	"Hide Skybox Texture"
+		{togglecvar	r_drawskybox}
+	"No Comp HDR Texs"
+		{togglecvar	mat_use_compressed_hdr_textures}
+	"Hide 3D Skybox"
+		{togglecvar	r_3dsky}
+	"Draw Entities"
+		{incrementcvar	"r_drawentities 0 3 1"}
+			// 0: Hide all
+			// 1: Draw as normal
+			// 2: Draw bones (different from "enable_skeleton_draw")
+			// 3: Draw client-side hitboxes
+	"Hide Opaque Rndrbls"
+		{togglecvar	r_drawopaquerenderables}
+	"Hide Trans Rndrbls"
+		{togglecvar	r_drawtranslucentrenderables}
+	"Draw Static Props"
+		{incrementcvar	"r_drawstaticprops 0 2 1"}
+	"Color Mod Stc Props"
+		{togglecvar	r_colorstaticprops}
+	"Static Prop Info"
+		{incrementcvar	"r_staticpropinfo 0 4 1"}
+			// 1: Show model names
+			// 2: Show static prop IDs
+			// 3: Show fade distances
+			// 4: Show fade screen widths
+	"Print Static Prop ID"
+		{command	prop_crosshair}
+	"Draw Other Models"
+		{incrementcvar	"r_drawothermodels 0 2 1"}
+	"Draw Brush Models"
+		{incrementcvar	"r_drawbrushmodels 0 2 1"}
+	"Draw Detail Props"
+		{incrementcvar	"r_drawdetailprops 0 2 1"}
+	"Draw Sprites"
+		{incrementcvar	"r_drawsprites 0 2 1"}
+	"Draw Beams"
+		{incrementcvar	"r_drawbeams 0 2 1"}
+	"No Partial Pixel Vis"
+		{togglecvar	r_pixelvisibility_partial}
+	"Disable Pixel Vis"
+		{togglecvar	r_dopixelvisibility}
+	"Show Px Vis Proxies"
+		{togglecvar	r_drawpixelvisibility}
+	"Spew Pixel Vis"
+		{togglecvar	r_pixelvisibility_spew}
+	"Debug Pixel Vis"
+		{command	pixelvis_debug}
+	"Hide Ropes"
+		{togglecvar	r_drawropes}
+	"Shake Ropes"
+		{togglecvar	rope_shake}
+	"Show Cubemaps"
+		{togglecvar	r_showenvcubemap}
+	"No Move Eyes"
+		{togglecvar	r_eyemove}
+	"Hide Teeth"
+		{togglecvar	r_teeth}
+	"Random Flex Weights"
+		{command	"toggle r_randomflex 0 1 10 50"}
+	"Stop Flex Rules"
+		{togglecvar	flex_rules}
+	"Disable Flex"
+		{togglecvar	r_flex}
+	"Hide Eyes"
+		{togglecvar	r_eyes}
+	"Reset Skin"
+		{command	"r_skin 0"}
+	"Skin"
+		{incrementcvar	"r_skin 0 31 1"}
+			// Arbitrary maximum value
+	"Overlay Wireframe"
+		{togglecvar	r_overlaywireframe}
+	"Hide Overlays"
+		{togglecvar	r_renderoverlayfragment}
+	"Draw Decals"
+		{incrementcvar	"r_drawdecals 0 2 1"}
+	"Decal Info"
+		{command	r_printdecalinfo}
+	"Draw Model Decals"
+		{togglecvar	r_drawmodeldecals}
+	"Mdl Decal Wireframe"
+		{togglecvar	r_modelwireframedecal}
+	"Hide VGUI (!)"
+		{togglecvar	r_drawvgui}
+	"Hide HUD"
+		{togglecvar	cl_drawhud}
+	"Debug Viewmodel"
+		{togglecvar	vm_debug}
+	"Hide Viewmodel"
+		{togglecvar	r_drawviewmodel}
+	"VPhysics Wireframe"
+		{togglecvar	vcollide_wireframe}
+	"Clear Back Buffer"
+		{togglecvar	gl_clear}
+	"Clear Bk Buf Random"
+		{togglecvar	gl_clear_randomcolor}
+}
+Rndr2 // Renderer 2
+{
+	"Toggle Triggers"
+		{command	showtriggers_toggle}
+	"dispenser_touch_trigger"
+		{command	"showtriggers_toggle dispenser_touch_trigger"}
+	"func_capturezone"
+		{command	"showtriggers_toggle func_capturezone"}
+	"func_nobuild"
+		{command	"showtriggers_toggle func_nobuild"}
+	"func_regenerate"
+		{command	"showtriggers_toggle func_regenerate"}
+	"func_respawnroom"
+		{command	"showtriggers_toggle func_respawnroom"}
+	"trigger_capture_area"
+		{command	"showtriggers_toggle trigger_capture_area"}
+	"trigger_hurt"
+		{command	"showtriggers_toggle trigger_hurt"}
+	"trigger_multiple"
+		{command	"showtriggers_toggle trigger_multiple"}
+	"trigger_once"
+		{command	"showtriggers_toggle trigger_once"}
+	"trigger_push"
+		{command	"showtriggers_toggle trigger_push"}
+	"trigger_soundscape"
+		{command	"showtriggers_toggle trigger_soundscape"}
+	"Get Shadow Info"
+		{command	"r_shadowdir;
+				r_shadowangles;
+				r_shadowcolor;
+				r_shadowdist;
+				r_shadowblobbycutoff"}
+			// Usage: r_shadowdir [<x> <y> <z>]
+			// Usage: r_shadowangles [<x> <y> <z>]
+			// Usage: r_shadowcolor [<r> <g> <b>]
+			// Usage: r_shadowdist [<distance>]
+			// Usage: r_shadowblobbycutoff [<area>]
+	"Shdws Shorten Factor"
+		{incrementcvar	"r_shadow_shortenfactor 1 2 1"}
+	"Shadow Wireframe"
+		{togglecvar	r_shadowwireframe}
+	"Shadow IDs"
+		{togglecvar	r_shadowids}
+	"Spew Dirty Shadows"
+		{togglecvar	r_shadow_debug_spew}
+	"Dbg Wrld Light Shdws"
+		{togglecvar	r_shadowfromworldlights_debug}
+	"Disable Shadows"
+		{togglecvar	r_shadows}
+	"Blobby Player Shdws"
+		{togglecvar	cl_blobbyshadows}
+	"Disable RtT Shadows"
+		{togglecvar	r_shadowrendertotexture}
+	"Show Particles BBox"
+		{togglecvar	cl_particles_show_bbox}
+	"Show Ptcls Ctrl Pts"
+		{togglecvar	cl_particles_show_controlpoints}
+	"Dump Ptcl FX Sys"
+		{command	cl_particles_dump_effects}
+	"Dump All Ptcl Sys"
+		{command	cl_particles_dumplist}
+	"Reduce Particles"
+		{togglecvar	mat_reduceparticles}
+	"Hide Particles"
+		{togglecvar	r_drawparticles}
+	"Impact FX No Flecks"
+		{togglecvar	r_drawflecks}
+	"Impact FX Alt Orient"
+		{togglecvar	r_impacts_alt_orientation}
+	"Spew Water Info"
+		{togglecvar	r_debugcheapwater}
+	"Get Cheap Water Info"
+		{command	"r_cheapwaterstart;
+				r_cheapwaterend"}
+	"Force Expensive"
+		{togglecvar	r_waterforceexpensive}
+	"Force Refl Entities"
+		{togglecvar	r_waterforcereflectentities}
+	"Disable Refraction"
+		{togglecvar	r_waterdrawrefraction}
+	"Disable Reflection"
+		{togglecvar	r_waterdrawreflection}
+	"Hide Water"
+		{togglecvar	mat_drawwater}
+	"Disable Clip Z"
+		{togglecvar	mat_clipz}
+	"Debug Jiggle Bones"
+		{togglecvar	cl_jiggle_bone_debug}
+	"Dbg Jgl Bones Pitch"
+		{togglecvar	cl_jiggle_bone_debug_pitch_constraints}
+	"Dbg Jgl Bones Yaw"
+		{togglecvar	cl_jiggle_bone_debug_yaw_constraints}
+	"Invert Jiggle Bones"
+		{togglecvar	cl_jiggle_bone_invert}
+	"Disable Jiggle Bones"
+		{togglecvar	r_jiggle_bones}
+	"Skeleton Wireframe"
+		{togglecvar	enable_skeleton_draw}
+	"Disable Mdl Fast Path"
+		{togglecvar	cl_modelfastpath}
+	"Skip Fast Path"
+		{togglecvar	cl_skipfastpath}
+	"Skip Slow Path"
+		{togglecvar	cl_skipslowpath}
+	"Slow Path Wireframe"
+		{togglecvar	r_slowpathwireframe}
+	"Show Depth Buffer"
+		{togglecvar	r_depthoverlay}
+	"Draw Render Boxes"
+		{togglecvar	r_drawrenderboxes}
+	"Partition Level"
+		{incrementcvar	"r_partition_level -1 3 1"}
+			// Arbitrary maximum value, maybe?
+			// More research required
+	"Voxel Tree View"
+		{command	voxeltree_view}
+	"Collision Test"
+		{command	collision_test}
+	"Visualize Traces"
+		{togglecvar	r_visualizetraces}
+	"Freeze Frame for 3s"
+		{command	test_freezeframe}
+	"Profile Renderer"
+		{command	timerefresh}
+}
+Mat // Material System
+{
+
+// mat_setvideomode <width> <height> <windowed>
+// mat_debug <material>
+// mat_suppress <material>
+
+	"Mat Sys Queue Mode"
+		{incrementcvar	"mat_queue_mode -1 2 1"}
+			// -1: Default
+			// 0: Single threaded
+			// 1: Queued single threaded
+			// 2: Queued multi threaded
+	"Reload All Materials"
+		{command	mat_reloadallmaterials}
+
+// mat_reloadmaterial <substring>
+
+	"Reload All Textures"
+		{command	mat_reloadtextures}
+	"Print Used Materials"
+		{command	mat_showmaterials}
+//	"Print Used Materials Verbose"
+//		{command	mat_showmaterialsverbose}
+			// Crashes when used with no search substring!
+	"Print Used Textures"
+		{command	mat_showtextures}
+			// Does not take search substrings
+	"Show Normal Maps"
+		{togglecvar	mat_normalmaps}
+	"Fast No Normal Maps"
+		{togglecvar	mat_fastnobump}
+	"Disable Normal Maps"
+		{togglecvar	mat_bumpmap}
+	"Fast No Specular"
+		{togglecvar	mat_fastspecular}
+	"Disable Specular"
+		{togglecvar	mat_specular}
+	"Disable Phong"
+		{togglecvar	mat_phong}
+	"Disable Rimlight"
+		{togglecvar	r_rimlight}
+			// Phong shading only
+	"Identity Lightwarp"
+		{togglecvar	r_lightwarpidentity}
+			// Cloak, EyeRefract, VertexLitGeneric shaders only
+			// Also Phong shading
+			// Overrides with "dev/identitylightwarp" texture
+	"Disable Lightwarp"
+		{togglecvar	mat_disable_lightwarp}
+			// LightmappedGeneric shader only
+	"Disable Fancy Blend"
+		{togglecvar	mat_disable_fancy_blending}
+			// LightmappedGeneric shader only
+	"Show Luxels"
+		{togglecvar	mat_luxels}
+	"No Avg Lightmaps"
+		{togglecvar	r_avglightmap}
+	"Hide Lightmap Page"
+		{command	"mat_showlightmappage -1"}
+	"Show Lightmap Page"
+		{incrementcvar	"mat_showlightmappage -1 31 1"}
+			// Arbitrary maximum value
+	"Light Crosshair"
+		{command	light_crosshair}
+
+// r_lightstyle -1 ???
+
+// mat_defaultlightmap 1 ???
+// mat_dynamiclightmaps 0 ???
+// r_lightmap -1 ???
+// r_unloadlightmaps 0 ???
+
+// r_dynamic <0|1>
+// r_dynamiclighting <0|1>
+
+	"DLight Debug"
+		{command	dlight_debug}
+
+	"No Filter Lightmaps"
+		{togglecvar	mat_filterlightmaps}
+	"No Filter Textures"
+		{togglecvar	mat_filtertextures}
+	"Disable Mipmapping"
+		{togglecvar	mat_mipmaptextures}
+	"Show Mipmapping Levels"
+		{incrementcvar	"mat_showmiplevels 0 2 1"}
+			// Also disables texture filtering
+			// 1: Base textures only
+			// 2: Normal maps only
+	"Show Low-Res Image"
+		{togglecvar	mat_showlowresimage}
+	"Reverse Depth"
+		{togglecvar	mat_reversedepth}
+	"Buffer Primitives"
+		{togglecvar	mat_bufferprimitives}
+//	"Draw Flat"
+//		{togglecvar	mat_drawflat}
+			// More research required
+			// I don't know how to make this work, if it even does
+	"Software Lighting"
+		{togglecvar	mat_softwarelighting}
+	"Get HDR Status"
+		{command	mat_hdr_enabled}
+	"HDR Histogram"
+		{togglecvar	mat_show_histogram}
+	"HDR Demo HUD"
+		{togglecvar	mat_show_ab_hdr_hudelement}
+	"HDR Uncap Exposure"
+		{togglecvar	mat_hdr_uncapexposure}
+	"Force Bloom"
+		{togglecvar	mat_force_bloom}
 	"Disable Bloom"
 		{togglecvar	mat_disable_bloom}
 	"Debug Bloom"
 		{togglecvar	mat_debug_bloom}
-	"Normal Maps"
-		{togglecvar	mat_normalmaps}
-	"Fast Normal Maps"
-		{togglecvar	mat_fastnobump}
-	"Fast Specular"
-		{togglecvar	mat_fastspecular}
-	"Normals"
+
+// mat_dynamic_tonemapping <0|1>
+
+	"OG Tonemap Algo"
+		{togglecvar	mat_tonemap_algorithm}
+			// 0: Original algorithm
+				// Forced for dod, cstrike, lostcoast, hl1 mods
+			// 1: New algorithm
+	"Disable Grain"
+		{togglecvar	mat_grain_enable}
+	"Enable Vignette"
+		{togglecvar	mat_vignette_enable}
+	"Disable Local Contrast"
+		{togglecvar	mat_local_contrast_enable}
+	"Disable Post-Proc"
+		{togglecvar	mat_postprocess_enable}
+	"Disable DoF"
+		{togglecvar	mat_dof_enabled}
+	"Override DoF"
+		{togglecvar	mat_dof_override}
+	"DoF Quality"
+		{incrementcvar	"mat_dof_quality 0 3 1"}
+			// Requires HDR_TYPE_FLOAT ("mat_hdr_level 3")
+			
+			// 0: 8 samples
+			// 1: 16 samples
+			// 2: 16 samples
+			// 3: 32 samples
+			
+			// Values outside of this range crash!
+	"Show Normals"
 		{togglecvar	mat_normals}
-	"Luxels"
-		{togglecvar	mat_luxels}
-	"Bump Basis"
+	"Show Bump Basis"
 		{togglecvar	mat_bumpbasis}
 	"Proxies Normal"
 		{command	"mat_proxy 0"}
-	"Proxies Turn Off"
+	"Proxies Disable"
 		{command	"mat_proxy 1"}
 	"Proxies Alpha Mod All"
 		{command	"mat_proxy 2"}
@@ -381,16 +1011,14 @@ Mat
 		{incrementcvar	"mat_surfaceid 0 2 1"}
 	"Surface Material"
 		{togglecvar	mat_surfacemat}
-	"Filter Lightmaps"
-		{togglecvar	mat_filterlightmaps}
-	"Filter Textures"
-		{togglecvar	mat_filtertextures}
-	"Show Mipmap Levels"
-		{incrementcvar	"mat_showmiplevels 0 2 1"}
-	"Show Low-Res Image"
-		{togglecvar	mat_showlowresimage}
-	"Lighting Preview"
+	"Lighting Preview Mode"
 		{incrementcvar	"mat_lpreview_mode -1 3 1"}
+			// Arbitrary maximum value, maybe?
+			// More research required
+			// 0: ENABLE_FIXED_LIGHTING_NONE
+			// 1: ENABLE_FIXED_LIGHTING_BASICLIGHT
+			// 2: ENABLE_FIXED_LIGHTING_OUTPUTMRTS_FOR_DEFERRED_LIGHTING
+			// 3: ENABLE_FIXED_LIGHTING_OUTPUTNORMAL_AND_DEPTH
 	"Water Overlay"
 		{togglecvar	mat_showwatertextures}
 	"Water Ovl Size 128-512"
@@ -399,188 +1027,823 @@ Mat
 		{togglecvar	mat_showframebuffertexture}
 	"FB Ovl Size 128-1024"
 		{command	"toggle mat_framebuffercopyoverlaysize 128 256 512 1024"}
-	"CamRndrTgt Overlay"
+	"Cam RT Overlay"
 		{togglecvar	mat_showcamerarendertarget}
-	"CRT Ovl Size 128-1024"
+	"Cam RT Ovl Size 128-1024"
 		{command	"toggle mat_camerarendertargetoverlaysize 128 256 512 1024"}
 	"Shadow Overlay"
 		{togglecvar	cl_drawshadowtexture}
 	"Shdw Ovl Size 256-1024"
 		{command	"toggle cl_shadowtextureoverlaysize 256 512 1024"}
-	"Show Lightmap Page"
-		{incrementcvar	"mat_showlightmappage -1 31 1"}
 	"Hue Sat Val Color Mdl"
 		{togglecvar	mat_hsv}
 	"Y′UV Color Mdl"
 		{togglecvar	mat_yuv}
-	"Reverse Depth"
-		{togglecvar	mat_reversedepth}
-	"Buffer Primitives"
-		{togglecvar	mat_bufferprimitives}
-	"Draw Flat"
-		{togglecvar	mat_drawflat}
-	"Software Lighting"
-		{togglecvar	mat_softwarelighting}
-	"HDR Histogram"
-		{togglecvar	mat_show_histogram}
-	"HDR Demo HUD"
-		{togglecvar	mat_show_ab_hdr_hudelement}
+	"Get Screen Overlay"
+		{command	r_screenoverlay}
+	"Clear Screen Overlay"
+		{command	"r_screenoverlay off"}
+	"Smoke Fog Overlay"
+		{togglecvar	cl_overdraw_test}
+//	"Enable Stub Mat Sys"
+//		{togglecvar	mat_stub}
+			// More research required
+			// I don't know how to make this work, if it even does
+			// Crashes anyway
+	"Show Fillrate (!)"
+		{togglecvar	mat_fillrate}
+	"Measure Fillrate (!)"
+		{togglecvar	mat_measurefillrate}
 	"Studio Model Stats"
 		{incrementcvar	"r_studio_stats 0 2 1"}
+	"Debug Alt + Tab"
+		{togglecvar	mat_debugalttab}
+	"Mat Crosshair"
+		{command	mat_crosshair}
+	"Print Mat Crosshair"
+		{command	mat_crosshair_printmaterial}
+	"Reload Mat Crosshair"
+		{command	mat_crosshair_reloadmaterial}
+	"Open Mat in Editor"
+		{command	mat_crosshair_edit}
+	"Open Mat in Explorer"
+		{command	mat_crosshair_explorer}
+	"No Rendering (!)"
+		{togglecvar	mat_norendering}
 }
-Snd
+Snd // Sound System
 {
+
+// play
+// playflush
+// playvol
+// sndplaydelay <delay> <sound>
+// speak <<sentence>|dsp|paint>
+
+// snd_filter <string>
+
+	"Stop All Sounds"
+		{command	stopsound}
+	"List All Sounds"
+		{command	soundlist}
+			// L: Is looped,
+			// ( %b): Sample size,
+			// Size (Sample size * sample count),
+			// Sound name
+			
+			// Total: Size in MB
+	"Print Sound Device"
+		{command	soundinfo}
+			// Sound Device: Device name,
+			// Channels,
+			// Samples: Sample count,
+			// Bits/Sample: Sample bits,
+			// Rate: DMA speed,
+			// total_channels
 	"Show Sounds"
 		{incrementcvar	"snd_show 0 2 1"}
-	"Sounds Class Names"
-		{togglecvar	snd_showclassname}
+			// 1+: Show the following:
+				// # total + 1,
+				// (l) front left channel volume,
+				// (c) front center channel volume (4+ speakers only),
+				// (r) front right channel volume,
+				// (rl) rear left channel volume (4+ speakers only),
+				// (rr) rear right channel volume (4+ speakers only),
+				// master volume,
+				// entity index source,
+				// x y z origins,
+				// time left,
+				// bLooping,
+				// name
+			// 2: Print to console the following:
+				// host_framecount,
+				// (seq) sound.nSequenceNumber,
+				// name,
+				// (src) sound.nEntityIndex,
+				// (ch) sound.nChannel,
+				// (dB) sound.Soundlevel,
+				// (vol) sound.fVolume,
+				// (time) cl.GetTime(),
+				// (delay) sound.fDelay,
+				// @ x y z origins
 	"Visualize Sounds"
 		{togglecvar	snd_visualize}
+			// Needs "snd_show" or "snd_showstart"
+	"Dump Client Sounds"
+		{command	snd_dumpclientsounds}
+	"Show Start"
+		{incrementcvar	"snd_showstart 0 5 1"}
+			// showstart always skips info on player footsteps!
+				// (not true in SFM at least)
+			// 1: show sound name, channel, volume, time
+			// 2: show dspmix, distmix, dspface, l/r/f/r vols
+			// 3: show sound origin coords
+			// 4: show gain of dsp_room
+			// 5: show dB loss due to obscured sound
+			// 6: reserved
+				// (really display gain once only)
+			// 7: show 2 and total gain & dist in ft. to sound source
+				// (looping sounds only)
+			
+			// If greater than 0 and less than 7 and not 4:
+				// name,
+				// (src) entity index,
+				// channel,
+				// soundlevel (dB),
+				// volume (vol),
+				// host time (time)
+				
+				// If 2 or 5, add:
+					// dspmix,
+					// distmix,
+					// dspface,
+					// left volume,
+					// center volume,
+					// right volume,
+					// rear left volume,
+					// rear right volume
+				
+				// If 3, add:
+					// x y z origins
+	"Show Start 6"
+		{command	"snd_showstart 6"}
+	"Show Start 7"
+		{command	"snd_showstart 7"}
+	"DSP Automatic Selection"
+		{incrementcvar	"adsp_debug 0 6 1"}
+			// 1+: Draw blue dsp detection node location
+			// 2+: Draw green room trace height detection bars
+			// 3: Draw teal horizontal trace bars for room width/depth detection (red if sky or no hit)
+			// 4: Draw teal upward traces for height detection (red if sky or no hit)
+			// 5: Draw teal box around all props around player (non-functional)
+			// 6: Draw magenta box around room as detected (broken, bounds stretch from 0 to 10000)
+	"Toggle Room DSP"
+		{togglecvar	dsp_room}
+	"Reload DSP Preset File"
+		{command	dsp_reload}
+			// Usage: dsp_reload <preset #> <proc #> <param 0..15>
+	"Disable DSP"
+		{togglecvar	dsp_off}
+	"Profile Sound"
+		{incrementcvar	"snd_profile 0 4 1"}
+			// 1: dsp
+			// 2: dsp+mix
+			// 3: load sound
+			// 4: all sound
+	"Show Class Name"
+		{incrementcvar	"snd_showclassname 0 3 1"}
+			// 1: show classname of ent making sound
+			// 2: show all mixgroup matches
+			// 3: show all mixgroup matches with current soundmixer for ent
+//	"Show Mixer"
+//		{togglecvar	snd_showmixer}
+			// I don't understand mixers yet!!!
+	"Trace Sound Emitter"
+		{incrementcvar	"sv_soundemitter_trace -1 0 1"}
+			// 0: All
+			// >=1: Ent index
+	"Flush Cl Snd Emit Sys"
+		{command	cl_soundemitter_flush}
+	"Flush Sv Snd Emit Sys"
+		{command	sv_soundemitter_flush}
+	"Check Missing Snd Files"
+		{command	sv_soundemitter_filecheck}
+
+// sv_soundemitter_spew <sound>
+
+	"Flush Cl + Sv Sndscps"
+		{command	soundscape_flush}
+	"Flush Cl Sndscps"
+		{command	cl_soundscape_flush}
+	"Print Cl Sndscp Info"
+		{command	cl_soundscape_printdebuginfo}
+	"Print Sv Sndscp Info"
+		{command	sv_soundscape_printdebuginfo}
 	"Debug Soundscapes"
 		{togglecvar	soundscape_debug}
-	"Flush Soundscapes"
-		{command	cl_soundscape_flush}
 	"Stop Soundscape"
 		{command	stopsoundscape}
-	"Print Soundscape Info"
-		{command	cl_soundscape_printdebuginfo}
 	"Dump Client Sndscp Data"
 		{command	soundscape_dumpclient}
 	"Debug Gain Curve"
 		{togglecvar	snd_debug_gaincurve}
-	"Dump Client Sounds"
-		{command	snd_dumpclientsounds}
-	"Sound Info"
-		{command	soundinfo}
-	"List All Sounds"
-		{command	soundlist}
 	"Sndscp Messages"
 		{togglecvar	soundscape_message}
+	"Spew Sound List"
+		{incrementcvar	"displaysoundlist 0 2 1"}
+			// 1: Show sound list
+			// 2: Show danger sounds
+
+// snd_async_spew_blocking <0|1|2>
+// snd_async_fullyasync <0|1>
+// snd_async_stream_spew <0|1|2>
+// snd_async_stream_fail <0|1>
+
+	"Flush Async WAVs"
+		{command	snd_async_flush}
+	"Print Async WAVs Mem"
+		{command	snd_async_showmem}
+	"Print Async WAVs Mem Sum"
+		{command	snd_async_showmem_summary}
+	"Print Async WAVs Mem Mus"
+		{command	snd_async_showmem_music}
+
+	"Report Sound Patches"
+		{command	report_soundpatch}
+
+// vox_reload
+
+// snd_rebuildaudiocache
+// snd_writemanifest
+// snd_updateaudiocache
+
 }
-Ent
+Ent // Entity
 {
-	"Clear Dbg Overlays"
+
+// !player
+// !pvsplayer
+// !activator
+// !caller
+// !picker
+// !self
+
+	"Clear Debug Overlays"
 		{command	clear_debug_overlays}
 	"Disable Dbg Overlays"
 		{togglecvar	enable_debug_overlays}
-	"Dbg Overlay Full Pos"
+	"Dbg Overlays Full Pos"
 		{togglecvar	debug_overlay_fullposition}
 	"Noclip"
 		{command	noclip}
+	"Disable Spec Noclip"
+		{togglecvar	sv_specnoclip}
 	"Notarget"
 		{command	notarget}
-	"God"
+	"God Mode"
 		{command	god}
-	"Buddha"
+	"Buddha Mode"
 		{command	buddha}
 	"Picker"
 		{command	picker}
-	"Messages"
+	"Messages Crosshair"
 		{command	ent_messages}
 	"Messages All"
 		{command	"ent_messages *"}
 	"Visualize IO Activity"
 		{togglecvar	ent_messages_draw}
-	"Text"
-		{command	ent_text}
-	"Text All"
-		{command	"ent_text *"}
-	"Name"
+	"Name Crosshair"
 		{command	ent_name}
 	"Name All"
 		{command	"ent_name *"}
-	"Bounding Box"
+	"Text Crosshair"
+		{command	ent_text}
+	"Text All"
+		{command	"ent_text *"}
+	"BBox Crosshair"
 		{command	ent_bbox}
-	"Bounding Box All"
+	"BBox All"
 		{command	"ent_bbox *"}
-	"Absolute Bounding Box"
+	"Abs BBox Crosshair"
 		{command	ent_absbox}
-	"Absolute BBox All"
+	"Abs BBox All"
 		{command	"ent_absbox *"}
-//	"Render Box"
+//	"Rndr Box Crosshair"
 //		{command	ent_rbox}
-	"Pivot"
-		{command	ent_pivot}
-	"Pivot All"
-		{command	"ent_pivot *"}
-	"Attachments"
+			// Not implemented in code
+//	"Rndr Box All"
+//		{command	"ent_rbox *"}
+			// Not implemented in code
+	"Attachments Crosshair"
 		{command	ent_attachments}
 	"Attachments All"
 		{command	"ent_attachments *"}
-	"Eye Position"
+	"Eye Pos Crosshair"
 		{command	ent_viewoffset}
-	"Eye Position All"
+	"Eye Pos All"
 		{command	"ent_viewoffset *"}
+
+// ent_remove
+// ent_remove_all
+// ent_setname
+
+	"Pivot Crosshair"
+		{command	ent_pivot}
+	"Pivot All"
+		{command	"ent_pivot *"}
 	"Pause"
 		{command	ent_pause}
+	"Cl BBox Crosshair"
+		{command	cl_ent_bbox}
+	"Cl Abs BBox Crosshair"
+		{command	cl_ent_absbox}
+	"Cl Rndr Box Crosshair"
+		{command	cl_ent_rbox}
 	"Debug NPC LoS"
 		{incrementcvar	"ai_debug_los 0 2 1"}
-	"Remove Decals"
+	"Clear Decals from Entity"
 		{command	cl_removedecals}
-	"Prop Debug"
+	"Toggle Prop Debug"
 		{command	prop_debug}
+	"Show Hitboxes All"
+		{command	"toggle sv_showhitboxes -1 *"}
+	"Report All Entities"
+		{command	report_entities}
+	"Report Cl Ent Sims"
+		{togglecvar	report_cliententitysim}
+	"Report Cl Ent Think"
+		{togglecvar	report_clientthinklist}
+	"Report All Ent Think"
+		{command	report_simthinklist}
+	"List Touch Links"
+		{command	report_touchlinks}
+	"Spew Touch Links"
+		{togglecvar	debug_touchlinks}
+	"Show Ragdoll BBox"
+		{togglecvar	g_debug_ragdoll_visualize}
 }
-NB
+Nav // Navigation Mesh
 {
-	"Select"
-		{command	nb_select}
-	"Stop Debugging"
-		{command	nb_debug}
-	"Behavior"
-		{command	"nb_debug behavior"}
-	"Look At"
-		{command	"nb_debug look_at"}
-	"Path"
-		{command	"nb_debug path"}
-	"Animation"
-		{command	"nb_debug animation"}
-	"Locomotion"
-		{command	"nb_debug locomotion"}
-	"Vision"
-		{command	"nb_debug vision"}
-	"Hearing"
-		{command	"nb_debug hearing"}
-	"Events"
-		{command	"nb_debug events"}
-	"Errors"
-		{command	"nb_debug errors"}
-//	"Climbing"
-//		{togglecvar	nb_debug_climbing}
-//	"Known Entities"
-//		{togglecvar	nb_debug_known_entities}
-//	"Stop"
-//		{togglecvar	nb_stop}
-//	"Player Move"
-//		{togglecvar	nb_player_move}
-//	"Blind"
-//		{togglecvar	nb_blind}
-}
-Nav
-{
-	"Edit"
+
+// Edit mode types:
+// NORMAL,
+// PLACE_PAINTING,
+// CREATING_AREA,
+// CREATING_LADDER,
+// DRAG_SELECTING,
+// SHIFTING_XY,
+// SHIFTING_Z
+
+// nav_area_max_size
+// nav_chop_selected
+// nav_coplanar_slope_limit
+// nav_coplanar_slope_limit_displacement
+// nav_corner_adjust_adjacent
+// nav_create_area_at_feet
+// nav_create_place_on_ground
+// nav_debug_blocked
+// nav_displacement_test
+// nav_drag_selection_volume_zmax_offset
+// nav_drag_selection_volume_zmin_offset
+// nav_draw_limit
+// nav_gen_cliffs_approx
+// nav_simplify_selected
+// nav_split_place_on_ground
+// nav_subdivide [<depth>]
+
+	"Edit Mode"
 		{togglecvar	nav_edit}
-	"GENERATE!"
-		{command	nav_generate}
+			// White cross: Cursor
+			// Yellow text: Highlighted area's ID, place, attributes, number of connections
+			// White line: Split line
+			// Yellow outline: Currently highlighted area
+			// Red outline: Connected to currently highlighted area
+			// Light blue line: Two-way connection
+			// Dark blue line: One-way connection
+			// Yellow corner square: Corner handle
+			
+			// Red corner line: Ideal sniper spot
+			// Magenta corner line: Good sniper spot
+			// Green corner line: Good cover hiding spot
+			// Magenta corner line: Exposed hiding spot
+			
+			// Also clears the selected set and stops continuously (de)selecting
+	"Area Info Dur 0.5-60"
+		{command	"toggle nav_show_area_info 0.5 60"}
+	"Show Compass"
+		{togglecvar	nav_show_compass}
+	"Show Contiguous"
+		{togglecvar	nav_show_continguous} // [sic]
+			// Green line: Contiguously connected
+			// Red line: Non-contiguously connected
+	"Show Visible"
+		{incrementcvar	"nav_show_potentially_visible 0 2 1"}
+			// Blue: Completely visible area
+			// Green: Potentially visible area
+			
+			// 1: Show completely and potentially visible areas
+			// 2: Show completely visible areas only
+//	"Show Approach Points"
+//		{togglecvar	nav_show_approach_points}
+			// Not implemented in code
+			// Used by CS bots only
+//	"Show Danger Levels"
+//		{togglecvar	nav_show_danger}
+			// Used by CS and L4D bots only
+	"Show Player Counts"
+		{togglecvar	nav_show_player_counts}
+//	"Show Light Intensity"
+//		{togglecvar	nav_show_light_intensity}
+			// L4D-specific
+			// Always skipped in other mods
+	"Snap to Grid"
+		{incrementcvar	"nav_snap_to_grid 0 3 1"}
+			// 1: 25 units grid size
+			// 2: 5 units grid size
+			// 3: 1 unit grid size
+//--------
+	"Split"
+		{command	nav_split}
+//	"Make Sniper Spots"
+//		{command	nav_make_sniper_spots}
+			// Used by CS bots only
+	"Merge"
+		{command	nav_merge}
+//	"Mark"
+	"Toggle Mark"
+		{command	nav_mark}
+//	"Unmark"
+//		{command	nav_unmark}
+	"Begin Area"
+		{command	nav_begin_area}
+	"End Area"
+		{command	nav_end_area}
+	"Connect"
+		{command	nav_connect}
+	"Disconnect"
+		{command	nav_disconnect}
+	"Splice"
+		{command	nav_splice}
+//--------
+	"Save"
+		{command	nav_save}
+	"Load"
+		{command	nav_load}
+
+	"Delete"
+		{command	nav_delete}
+	"Delete Marked"
+		{command	nav_delete_marked}
+
+	"Flood Select"
+		{command	nav_flood_select}
+			// Includes incoming connections
+	"Flood Select Out"
+		{command	"nav_flood_select out"}
+			// Does not "jump up" to select
+	"Flood Select In"
+		{command	"nav_flood_select in"}
+			// Does not "drop down" to select
+			
+			// Includes incoming connections
+			// Excludes outgoing connections
+	"Toggle Selected Set"
+		{command	nav_toggle_selected_set}
+	"Store Selected Set"
+		{command	nav_store_selected_set}
+	"Recall Selected Set"
+		{command	nav_recall_selected_set}
+	"Add to Selected Set"
+		{command	nav_add_to_selected_set}
+
+// nav_add_to_selected_set_by_id <id>
+
+	"Rmv from Selected Set"
+		{command	nav_remove_from_selected_set}
+	"Toggle in Selected Set"
+		{command	nav_toggle_in_selected_set}
+	"Clear Selected Set"
+		{command	nav_clear_selected_set}
+
+	"Begin Selecting"
+		{command	nav_begin_selecting}
+	"End Selecting"
+		{command	nav_end_selecting}
+	"Begin Drag Selecting"
+		{command	nav_begin_drag_selecting}
+	"End Drag Selecting"
+		{command	nav_end_drag_selecting}
+	"Begin Drag Deselecting"
+		{command	nav_begin_drag_deselecting}
+	"End Drag Deselecting"
+		{command	nav_end_drag_deselecting}
+	"Raise Drag Volume Max"
+		{command	nav_raise_drag_volume_max}
+	"Lower Drag Volume Max"
+		{command	nav_lower_drag_volume_max}
+	"Raise Drag Volume Min"
+		{command	nav_raise_drag_volume_min}
+	"Lower Drag Volume Min"
+		{command	nav_lower_drag_volume_min}
+	"Toggle Selecting"
+		{command	nav_toggle_selecting}
+	"Begin Deselecting"
+		{command	nav_begin_deselecting}
+	"End Deselecting"
+		{command	nav_end_deselecting}
+	"Toggle Deselecting"
+		{command	nav_toggle_deselecting}
+
+	"Begin Shifting XY"
+		{command	nav_begin_shift_xy}
+	"End Shifting XY"
+		{command	nav_end_shift_xy}
+
+	"Select Invalid Areas"
+		{command	nav_select_invalid_areas}
+	"Select Blocked Areas"
+		{command	nav_select_blocked_areas}
+	"Select Obstructed Areas"
+		{command	nav_select_obstructed_areas}
+	"Select Damaging Areas"
+		{command	nav_select_damaging_areas}
+	"Select Stair Areas"
+		{command	nav_select_stairs}
+
+	"Update Blocked Status"
+		{command	nav_update_blocked}
+	"Check Floor"
+		{command	nav_check_floor}
+	"Select Overlapping"
+		{command	nav_select_overlapping}
+
+	"Check Stairs"
+		{command	nav_check_stairs}
+//--------
+//	"List All Places"
+//		{command	nav_use_place}
+//	"List All Places Used"
+//		{command	nav_place_list}
+//	"Toggle Place Mode"
+//		{command	nav_toggle_place_mode}
+
+	"Corner Select"
+		{command	nav_corner_select}
+	"Corner Raise 1 hu"
+		{command	"nav_corner_raise 1"}
+	"Corner Lower 1 hu"
+		{command	"nav_corner_lower 1"}
+	"Corner Place on Ground"
+		{command	nav_corner_place_on_ground}
+//--------
+	"Warp to Marked"
+		{command	nav_warp_to_mark}
+	"Clear All Nav Attribs"
+		{command	wipe_nav_attributes}
+
+// nav_clear_attribute
+// nav_mark_attribute
+
 	"Mark Walkable"
 		{command	nav_mark_walkable}
 	"Clear Walkable Marks"
 		{command	nav_clear_walkable_marks}
-	"Show Compass"
-		{togglecvar	nav_show_compass}
+	"Compress IDs"
+		{command	nav_compress_id}
+	"Disable Quicksave"
+		{togglecvar	nav_quicksave}
+	"No Gen Fence Tops"
+		{togglecvar	nav_generate_fencetops}
+//	"No Fix Up Jump Areas"
+//		{togglecvar	nav_generate_fixup_jump_areas}
+			// Used by CS bots only
+//	"Replace Jump Areas"
+//		{command	nav_remove_jump_areas}
+			// Used by CS bots only
+	"GENERATE!"
+		{command	nav_generate}
+			// Generation state types:
+				// SAMPLE_WALKABLE_SPACE,
+				// CREATE_AREAS_FROM_SAMPLES,
+				// FIND_HIDING_SPOTS,
+				// FIND_ENCOUNTER_SPOTS,
+				// FIND_SNIPER_SPOTS,
+				// FIND_EARLIEST_OCCUPY_TIMES,
+				// FIND_LIGHT_INTENSITY,
+				// COMPUTE_MESH_VISIBILITY,
+				// CUSTOM,
+				// SAVE_NAV_MESH
+			
+			// Generation mode types:
+				// GENERATE_NONE,
+				// GENERATE_FULL,
+				// GENERATE_INCREMENTAL,
+				// GENERATE_SIMPLIFY,
+				// GENERATE_ANALYSIS_ONLY
+	"GENERATE! Incremental"
+		{command	nav_generate_incremental}
+	"Analyze"
+		{command	nav_analyze}
+	"Check Nav Files"
+		{command	nav_check_file_consistency}
+
+//	"Make Props Solid"
+//		{togglecvar	nav_solid_props}
+			// I swear this doesn't even work
+
+// nav_shift <x> <y> <z>
+
+//	"World Center"
+//		{command	nav_world_center}
 }
-!InGm
+//Nav2 // Navigation Mesh 2
+//{
+//	"Toggle CROUCH"
+//		{command	nav_crouch}
+//	"Toggle JUMP"
+//		{command	nav_jump}
+//	"Toggle PRECISE"
+//		{command	nav_precise}
+//	"Toggle NO_JUMP"
+//		{command	nav_no_jump}
+//	"Toggle STOP"
+//		{command	nav_stop}
+//	"Toggle RUN"
+//		{command	nav_run}
+//	"Toggle WALK"
+//		{command	nav_walk}
+//	"Toggle AVOID"
+//		{command	nav_avoid}
+//	"Toggle TRANSIENT"
+//		{command	nav_transient}
+//	"Toggle DONT_HIDE"
+//		{command	nav_dont_hide}
+//	"Toggle STAND"
+//		{command	nav_stand}
+//	"Toggle NO HOSTAGES"
+//		{command	nav_no_hostages}
+//	// STAIRS
+//	// NO_MERGE
+//	// OBSTACLE_TOP
+//	// CLIFF
+//	
+//	// BLOCKED
+//	// OBSTRUCTED
+//	// DAMAGING
+//	// UNDERWATER
+//	"Strip"
+//		{command	nav_strip}
+//}
+NB // NextBot
 {
-	"Show Triggers"
-		{togglecvar	showtriggers}
-	"Load Textures"
-		{togglecvar	mat_loadtextures}
-	"Skip Load Static Prps"
-		{togglecvar	disable_static_prop_loading}
-	"Rand Static Lighting"
-		{togglecvar	r_debugrandomstaticlighting}
+
+// nb_player_move_direct <0|1>
+//---
+// nb_blind <0|1>
+// nb_debug_known_entities <0|1>
+//---
+// nb_debug_history <0|1>
+//---
+// nb_player_stop <0|1>
+// nb_player_walk <0|1>
+// nb_player_crouch <0|1>
+// nb_player_move <0|1>
+//---
+// nb_update_debug <0|1>
+
+	"Stop All"
+		{togglecvar	nb_stop}
+
+// nb_command <string>
+
+	"Delete All Any"
+		{command	nb_delete_all}
+	"Delete All Unassigned"
+		{command	"nb_delete_all unassigned"}
+	"Delete All Spectator"
+		{command	"nb_delete_all spectator"}
+	"Delete All Red"
+		{command	"nb_delete_all red"}
+	"Delete All Blue"
+		{command	"nb_delete_all blue"}
+			// Usage:
+			// nb_delete_all [<teamname>]
+			// L4D: survivor|infected
+			// TF2: red|blue
+	"Move to Cursor All"
+		{command	nb_move_to_cursor}
+	"Stop Debugging"
+		{command	nb_debug}
+	"Debug BEHAVIOR"
+		{command	"nb_debug BEHAVIOR"}
+	"Debug LOOK_AT"
+		{command	"nb_debug LOOK_AT"}
+	"Debug PATH"
+		{command	"nb_debug PATH"}
+	"Debug ANIMATION"
+		{command	"nb_debug ANIMATION"}
+			// Only L4D bots implement this
+	"Debug LOCOMOTION"
+		{command	"nb_debug LOCOMOTION"}
+	"Debug VISION"
+		{command	"nb_debug VISION"}
+	"Debug HEARING"
+		{command	"nb_debug HEARING"}
+	"Debug EVENTS"
+		{command	"nb_debug EVENTS"}
+	"Debug ERRORS"
+		{command	"nb_debug ERRORS"}
+			// Usage: nb_debug [<type>] ...
+	"Debug All"
+		{command	"nb_debug *"}
+	"Clear Debug Filter"
+		{command	nb_debug_filter}
+	"Debug Filter Look At"
+		{command	"nb_debug_filter lookat"}
+			// Current spectator target
+	"Debug Filter Selected"
+		{command	"nb_debug_filter selected"}
+			// Selected (with "nb_select")
+	"Debug Filter Unassigned"
+		{command	"nb_debug_filter unassigned"}
+	"Debug Filter Spectator"
+		{command	"nb_debug_filter spectator"}
+	"Debug Filter Red"
+		{command	"nb_debug_filter red"}
+	"Debug Filter Blue"
+		{command	"nb_debug_filter blue"}
+			// Usage: nb_debug_filter [lookat] [selected] [<entindex>] [<debugidentifier>] [<teamname>]
+			
+			// <debugidentifier>: "<classname>(#<entindex>)" by default
+			// L4D: survivor|infected
+			// TF2: red|blue, also takes [<playerclass>]
+			
+			// Items cannot be individually removed, only added or totally cleared
+	"Select"
+		{command	nb_select}
+			// Select nothing to deselect
+	"Force Selected Look At"
+		{command	nb_force_look_at}
+	"Warp Selected Here"
+		{command	nb_warp_selected_here}
+
+// nb_allow_avoiding <0|1>
+// nb_allow_climbing <0|1>
+// nb_allow_gap_jumping <0|1>
+
+// nb_debug_climbing <0|1>
+
+	"Add Simple Bot (!!!)"
+		{command	simple_bot_add}
+			// Needs "models/humans/group01/female_01.mdl" precached
+			// Such as in "scripts/client_precache.txt"
+			// Otherwise it crashes
+}
+!InGm // Not In-Game
+{
+	"Radiosity"
+		{incrementcvar	"r_radiosity 0 4 1"}
+			// 0: No radiosity
+			// 1: Radiosity with ambient cube (6 samples)
+			// 2: Radiosity with 162 samples
+			// 3: 162 samples for static props, 6 samples for everything else
+			// 4: 162 samples for static props, reconstructed ambient from leaf for everything else
 	"Ambient Lighting Only"
 		{togglecvar	r_ambientlightingonly}
+	"Load Stc Prop Lighting"
+		{incrementcvar	"r_proplightingfromdisk 0 2 1"}
+			// 0: Off
+			// 1 (default): On
+			// 2: Show errors:
+				// Red: Bad data
+				// Green: Valid data
+				// Yellow: No data
+	"Rand Stc Prop Lighting"
+		{togglecvar	r_debugrandomstaticlighting}
+//	"Static Light Streams"
+//		{incrementcvar	"r_staticlight_streams 0 3 1"}
+			// TL;DR: Don't mess with this
+			// I originally used this to turn off static prop lighting before learning of "r_proplightingfromdisk"
+			
+			// 0: Akin to "r_proplightingfromdisk 0"
+			// 1 (default): Lit as normal
+			// 2: Props appear black
+			// 3: Whole screen glitches - couldn't load combo errors in console
+			
+			// From Alien Swarm SDK source code (vertexlitgeneric_dx9_helper.cpp):
+				// // r_staticlight_streams (from engine.dll)
+				// // This is for the 3 color baked prop lighting.
+				// static ConVarRef r_staticlight_streams( "r_staticlight_streams", true );
+				// bool bStaticLight3Streams = ( r_staticlight_streams.GetInt() == 3 );
+	"No Load Stc Props"
+		{togglecvar	disable_static_prop_loading}
+	"No Load World Texs"
+		{togglecvar	mat_loadtextures}
+			// Disables 2D skybox texture rendering if toggled in-game, and nothing else
+	"Exclude Textures"
+		{togglecvar	mat_excludetextures}
+			// Explicit texture exclusion
+			// Looks in "//MOD/maps/<mapname>_exclude.lst"
+	"Show Triggers"
+		{togglecvar	showtriggers}
 	"Show Ladders"
 		{togglecvar	sv_showladders}
+	"Sv Dump Str Tables"
+		{togglecvar	sv_dumpstringtables}
+	"Log Download List"
+		{togglecvar	sv_logdownloadlist}
+	"Write Lightmap PFMs"
+		{togglecvar	mat_lightmap_pfms}
+			// Writes lightmap pages to "lightmap-page-<number>.pfm"
+			// Says it's when exiting a level, actually on shutdown
+}
+XT // Extra Tab Test
+{
+	"Test Command"
+		{command	version}
+	"Test Toggle"
+		{togglecvar	r_drawviewmodel}
+	"Test Increment"
+		{incrementcvar	"mat_wireframe 0 3 1"}
 }
 }
